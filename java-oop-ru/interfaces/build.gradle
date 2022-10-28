@@ -1,0 +1,24 @@
+plugins {
+  id 'java'
+  id 'com.adarshr.test-logger' version '2.1.1'
+}
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  testImplementation 'org.junit.jupiter:junit-jupiter:5.7.1'
+}
+
+test {
+  useJUnitPlatform()
+}
+
+testlogger {
+  showStandardStreams = true
+}
+
+tasks.withType(JavaCompile) {
+  options.encoding = "UTF-8"
+}
