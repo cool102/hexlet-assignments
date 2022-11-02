@@ -10,15 +10,16 @@ class SingleTag extends Tag {
 
     @Override
     public String toString() {
-        String tagStart = String.format("<%s ", tagName);
+        String tagStart = String.format("<%s", tagName);
         StringBuilder result = new StringBuilder(tagStart);
+        result.append(" ");
         for (Map.Entry<String, String> entry : attributes.entrySet()) {
             String attribute = entry.getKey();
             String value = entry.getValue();
             result.append(getPairOfAttributeAndValue(attribute, value));
             result.append(" ");
         }
-        result.append(">").deleteCharAt(result.length() -2);
+        result.append(">").deleteCharAt(result.length() - 2);
         return result.toString();
     }
 
