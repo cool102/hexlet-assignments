@@ -57,8 +57,8 @@ public class Validator {
 
     }
 
-    public static List<Object> validate(Object obj) {
-        List<Object> result = new ArrayList<Object>();
+    public static List<String> validate(Object obj) {
+        List<String> result = new ArrayList<String>();
         Field[] fields = obj.getClass().getDeclaredFields();
         for (Field field : fields) {
             field.setAccessible(true);
