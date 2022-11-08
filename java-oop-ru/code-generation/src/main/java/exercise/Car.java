@@ -3,7 +3,7 @@ package exercise;
 import lombok.Value;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-/@Getter
+@Getter
 @AllArgsConstructor
 @ToString
 class Car {
