@@ -3,7 +3,7 @@ package exercise;
 import lombok.Value;
 
 @AllArgsConstructor
-@Getter
+@Data
 class User {
     int id;
     String firstName;
