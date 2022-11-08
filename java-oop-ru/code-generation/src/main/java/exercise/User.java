@@ -2,9 +2,8 @@ package exercise;
 
 import lombok.Value;
 
-// BEGIN
-
-// END
+@AllArgsConstructor
+@Getter
 class User {
     int id;
     String firstName;
