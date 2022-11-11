@@ -6,7 +6,7 @@
     <form action="/login" method="post">
         <div class="mb-3">
             <label>Email</label>
-            <input class="form-control" type="email" name="email" value='${user.getOrDefault("email", "")}'>
+            <input class="form-control" type="email" name="email" value='${email}'>
         </div>
         <div class="mb-3">
             <label>Пароль</label>

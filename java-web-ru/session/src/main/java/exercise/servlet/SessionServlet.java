@@ -57,7 +57,7 @@ public class SessionServlet extends HttpServlet {
         // BEGIN
         HttpSession session = request.getSession();
         String inputEmail = request.getParameter("email");
-        String inputPassword = request.getParameter("email");
+        String inputPassword = request.getParameter("password");
         Map<String, String> inSystem = users.findByEmail(inputEmail);
         if (inSystem != null & inputPassword.equals("password")) {
             session.setAttribute("userId", inSystem.get("id"));
