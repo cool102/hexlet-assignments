@@ -72,37 +72,37 @@ public class ArticlesServlet extends HttpServlet {
         Connection connection = (Connection) context.getAttribute("dbConnection");
         // BEGIN
 
+        List<Map<String, String>> articles = new ArrayList<>();
+
+        int articlesPerPage = 10;
+
         String page = request.getParameter("page");
-        String offset = null;
-        int pageAsInt = 0;
-        if (page == null || page.equals("1")) {
-            offset = "0";
-        } else {
-            pageAsInt = Integer.parseInt(page);
-            offset = String.valueOf(pageAsInt * 10 - 10);
+        int normalizedPage = page == null ? 1 : Integer.parseInt(page);
+        int offset = (normalizedPage - 1) * articlesPerPage;
+
+        String query = "SELECT id, title FROM articles ORDER BY id LIMIT ? OFFSET ?";
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, articlesPerPage);
+            statement.setInt(2, offset);
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                articles.add(Map.of(
+                                "id", rs.getString("id"),
+                                "title", rs.getString("title")
+                        )
+                );
+            }
+
+        } catch (SQLException e) {
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return;
         }
 
-        String sql = "SELECT * FROM articles ORDER BY id LIMIT 10 OFFSET ? ";
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setString(1, offset);
-
-        ResultSet resultSet = preparedStatement.executeQuery();
-
-        List<Map<String, String>> articles = new ArrayList<Map<String, String>>();
-
-        while (resultSet.next()) {
-            Map<String, String> article = new HashMap<String, String>();
-            article.put("title", resultSet.getString(2));
-            article.put("body", resultSet.getString(3));
-            articles.add(article);
-        }
-        /*resultSet.close();
-        preparedStatement.close();
-        connection.close();*/
-
-
-        request.setAttribute("page", pageAsInt);
         request.setAttribute("articles", articles);
+        request.setAttribute("page", normalizedPage);
         // END
         TemplateEngineUtil.render("articles/index.html", request, response);
     }
@@ -114,19 +114,32 @@ public class ArticlesServlet extends HttpServlet {
         ServletContext context = request.getServletContext();
         Connection connection = (Connection) context.getAttribute("dbConnection");
         // BEGIN
-        String id = request.getParameter("id");
-        String sql = "SELECT * FROM articles WHERE id = ?";
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setString(1, id);
-        ResultSet resultSet = preparedStatement.executeQuery(sql);
-        resultSet.first();
-        String title = resultSet.getString(2);
-        String body = resultSet.getString(3);
-        resultSet.close();
-        preparedStatement.close();
-        connection.close();
-        request.setAttribute("title", title);
-        request.setAttribute("body", body);
+        String id = getId(request);
+
+        Map<String, String> article = new HashMap<>();
+
+        String query = "SELECT * FROM articles WHERE id=?";
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, id);
+            ResultSet rs = statement.executeQuery();
+
+            if (!rs.first()) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND);
+                return;
+            }
+
+            article.put("title", rs.getString("title"));
+            article.put("body", rs.getString("body"));
+
+
+        } catch (SQLException e) {
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return;
+        }
+
+        request.setAttribute("article", article);
         // END
         TemplateEngineUtil.render("articles/show.html", request, response);
     }
