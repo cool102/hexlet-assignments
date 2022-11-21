@@ -111,7 +111,7 @@ public final class ArticleController {
     public static Handler destroyArticle = ctx -> {
         // BEGIN
         long id = ctx.pathParamAsClass("id", Long.class).getOrDefault(null);
-        Article article = new QArticle()
+        new QArticle()
                 .id.equalTo(id)
                 .delete();
         ctx.sessionAttribute("flash", "Статья успешно удалена");
