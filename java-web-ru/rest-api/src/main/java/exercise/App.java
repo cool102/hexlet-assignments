@@ -1,10 +1,10 @@
 package exercise;
 
+import exercise.controllers.UserController;
 import io.javalin.Javalin;
-import static io.javalin.apibuilder.ApiBuilder.crud;
 import io.javalin.core.validation.ValidationException;
 
-import exercise.controllers.UserController;
+import static io.javalin.apibuilder.ApiBuilder.crud;
 
 public final class App {
 

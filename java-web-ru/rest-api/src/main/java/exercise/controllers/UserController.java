@@ -54,7 +54,6 @@ public class UserController implements CrudHandler {
     }
 
 
-
     public void update(Context ctx, String id) {
         // BEGIN
         String body = ctx.body();

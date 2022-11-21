@@ -1,6 +1,7 @@
 package exercise.domain;
 
 import io.ebean.Model;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -33,6 +34,10 @@ public class User extends Model {
         return this.id;
     }
 
+    public void setId(String id) {
+        this.id = Long.parseLong(id);
+    }
+
     public String getFirstName() {
         return this.firstName;
     }
@@ -47,9 +52,5 @@ public class User extends Model {
 
     public String getPassword() {
         return this.password;
-    }
-
-    public void setId(String id) {
-        this.id = Long.parseLong(id);
     }
 }

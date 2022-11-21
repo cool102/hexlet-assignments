@@ -1,28 +1,24 @@
 package exercise;
 
-import org.junit.jupiter.api.BeforeAll;
+import exercise.domain.User;
+import exercise.domain.query.QUser;
+import io.ebean.DB;
+import io.ebean.Transaction;
+import io.javalin.Javalin;
+import kong.unirest.HttpResponse;
+import kong.unirest.Unirest;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.nio.file.Path;
-
+import java.nio.file.Paths;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
-import kong.unirest.HttpResponse;
-import kong.unirest.Unirest;
-import io.javalin.Javalin;
-import io.ebean.DB;
-import io.ebean.Transaction;
-
-import exercise.domain.User;
-import exercise.domain.query.QUser;
-
-import java.util.List;
 
 class AppTest {
 
@@ -32,7 +28,7 @@ class AppTest {
 
     private static Path getFixturePath(String fileName) {
         return Paths.get("src", "test", "resources", "fixtures", fileName)
-        .toAbsolutePath().normalize();
+                .toAbsolutePath().normalize();
     }
 
     private static String readFixture(String fileName) throws Exception {
@@ -69,8 +65,8 @@ class AppTest {
     void testGetAll() {
 
         HttpResponse<String> response = Unirest
-            .get(baseUrl + "/users")
-            .asString();
+                .get(baseUrl + "/users")
+                .asString();
         String content = response.getBody();
 
         assertThat(response.getStatus()).isEqualTo(200);
@@ -78,9 +74,9 @@ class AppTest {
 
         List<User> actualUsers = DB.json().toList(User.class, content);
         List<User> expectedUsers = new QUser()
-            .orderBy()
+                .orderBy()
                 .id.asc()
-            .findList();
+                .findList();
 
         assertThat(actualUsers).isEqualTo(expectedUsers);
     }
@@ -91,8 +87,8 @@ class AppTest {
         String id = "5";
 
         HttpResponse<String> response = Unirest
-            .get(baseUrl + "/users/" + id)
-            .asString();
+                .get(baseUrl + "/users/" + id)
+                .asString();
         String content = response.getBody();
 
         assertThat(response.getStatus()).isEqualTo(200);
@@ -100,8 +96,8 @@ class AppTest {
 
         User actualUser = DB.json().toBean(User.class, content);
         User expectedUser = new QUser()
-            .id.equalTo(Long.parseLong(id))
-            .findOne();
+                .id.equalTo(Long.parseLong(id))
+                .findOne();
 
         assertThat(actualUser).isEqualTo(expectedUser);
     }
@@ -120,16 +116,16 @@ class AppTest {
         User user = new User("Aleksandr", "Beloff", "albel@hotmail.com", "12344321");
 
         HttpResponse<String> responsePost = Unirest
-            .post(baseUrl + "/users")
-            .header("Content-Type", "application/json")
-            .body(user)
-            .asEmpty();
+                .post(baseUrl + "/users")
+                .header("Content-Type", "application/json")
+                .body(user)
+                .asEmpty();
 
         assertThat(responsePost.getStatus()).isEqualTo(200);
 
         User actualUser = new QUser()
-            .lastName.equalTo("Beloff")
-            .findOne();
+                .lastName.equalTo("Beloff")
+                .findOne();
 
         assertThat(actualUser).isNotNull();
         assertThat(actualUser.getFirstName()).isEqualTo("Aleksandr");
@@ -144,16 +140,16 @@ class AppTest {
         User updatedUser = new User("Nikolay", "Chernoff", "chernota@hotmail.com", "000000");
 
         HttpResponse<String> responsePatch = Unirest
-            .patch(baseUrl + "/users/1")
-            .header("Content-Type", "application/json")
-            .body(updatedUser)
-            .asEmpty();
+                .patch(baseUrl + "/users/1")
+                .header("Content-Type", "application/json")
+                .body(updatedUser)
+                .asEmpty();
 
         assertThat(responsePatch.getStatus()).isEqualTo(200);
 
         User actualUser = new QUser()
-            .id.equalTo(1)
-            .findOne();
+                .id.equalTo(1)
+                .findOne();
 
         assertThat(actualUser).isNotNull();
         assertThat(actualUser.getFirstName()).isEqualTo("Nikolay");
@@ -166,14 +162,14 @@ class AppTest {
     void testDelete() {
 
         HttpResponse<String> responseDelete = Unirest
-            .delete(baseUrl + "/users/10")
-            .asEmpty();
+                .delete(baseUrl + "/users/10")
+                .asEmpty();
 
         assertThat(responseDelete.getStatus()).isEqualTo(200);
 
         User actualUser = new QUser()
-            .id.equalTo(10)
-            .findOne();
+                .id.equalTo(10)
+                .findOne();
 
         assertThat(actualUser).isNull();
     }
