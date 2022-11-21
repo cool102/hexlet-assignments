@@ -23,8 +23,6 @@ public class UserController implements CrudHandler {
         // END
     }
 
-    ;
-
     public void getOne(Context ctx, String id) {
 
         // BEGIN
@@ -34,7 +32,6 @@ public class UserController implements CrudHandler {
         // END
     }
 
-    ;
 
     public void create(Context ctx) {
 
@@ -65,7 +62,6 @@ public class UserController implements CrudHandler {
         // END
     }
 
-    ;
 
     public void delete(Context ctx, String id) {
         // BEGIN
@@ -75,5 +71,5 @@ public class UserController implements CrudHandler {
         // END
     }
 
-    ;
+
 }
