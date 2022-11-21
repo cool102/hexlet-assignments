@@ -1,28 +1,28 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/application.html}">
+<html layout:decorate="~{layouts/application.html}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
     <title>Edit article</title>
 </head>
 <section layout:fragment="content">
     <h1>Редактирование статьи</h1>
-    <form th:object="${article}" th:action="@{/articles/{id}/edit(id=*{id})}" method="post">
+    <form method="post" th:action="@{/articles/{id}/edit(id=*{id})}" th:object="${article}">
         <div class="mb-3">
             <label>Название</label>
-            <input class="form-control" type="text" name="title" th:value="*{title}">
+            <input class="form-control" name="title" th:value="*{title}" type="text">
         </div>
         <div class="mb-3">
             <label>Содержание</label>
-            <textarea class="form-control" rows="20" cols="80" type="text" name="body" th:text="*{body}"></textarea>
+            <textarea class="form-control" cols="80" name="body" rows="20" th:text="*{body}" type="text"></textarea>
         </div>
         <div class="mb-3">
             <select class="form-control" name="categoryId">
                 <option
                         th:each="category : ${categories}"
-                        th:value="${category.id}"
-                        th:text="${category.name}"
                         th:selected="${category.id==article.category.id}"
+                        th:text="${category.name}"
+                        th:value="${category.id}"
                 >
                 </option>
             </select>

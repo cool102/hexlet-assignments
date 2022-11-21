@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/application.html}">
+<html layout:decorate="~{layouts/application.html}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
     <title>Articles</title>
@@ -18,7 +18,7 @@
         <tr th:each="article : ${articles}" th:object="${article}">
             <td th:text="*{id}"></td>
             <td>
-                <a th:text="*{getTitle()}" th:href="@{/articles/{id}(id=*{getId()})}"></a>
+                <a th:href="@{/articles/{id}(id=*{getId()})}" th:text="*{getTitle()}"></a>
             </td>
         </tr>
     </table>

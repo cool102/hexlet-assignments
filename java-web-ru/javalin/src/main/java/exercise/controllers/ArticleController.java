@@ -49,7 +49,7 @@ public final class ArticleController {
         article.save();
 
         ctx.sessionAttribute("flash", "Статья успешно создана");
-        ctx.redirect("articles/index.html");
+        ctx.redirect("/articles");
     };
 
     public static Handler showArticle = ctx -> {
@@ -65,6 +65,7 @@ public final class ArticleController {
 
     public static Handler editArticle = ctx -> {
         // BEGIN
+
         long id = ctx.pathParamAsClass("id", Long.class).getOrDefault(null);
 
         Article article = new QArticle()
@@ -75,6 +76,7 @@ public final class ArticleController {
         ctx.attribute("categories", categories);
         ctx.attribute("article", article);
         ctx.render("articles/edit.html");
+
         // END
     };
 
@@ -83,17 +85,17 @@ public final class ArticleController {
         long id = ctx.pathParamAsClass("id", Long.class).getOrDefault(null);
         String title = ctx.formParam("title");
         String body = ctx.formParam("body");
-        Category category = ctx.pathParamAsClass("category", Category.class).getOrDefault(null);
+        long categoryId = ctx.formParamAsClass("categoryId", Long.class).getOrDefault(null);
 
         new QArticle()
                 .id.equalTo(id)
                 .asUpdate()
                 .set("title", title)
                 .set("body", body)
-                .set("category", category)
+                .set("category", categoryId)
                 .update();
         ctx.sessionAttribute("flash", "Статья успешно обновлена");
-        ctx.redirect("articles/index.html");
+        ctx.redirect("/articles");
         // END
     };
 
@@ -104,18 +106,19 @@ public final class ArticleController {
                 .id.equalTo(id).findOne();
 
         ctx.attribute("article", article);
-        ctx.redirect("articles/delete.html");
+        ctx.render("articles/delete.html");
         // END
     };
 
     public static Handler destroyArticle = ctx -> {
         // BEGIN
         long id = ctx.pathParamAsClass("id", Long.class).getOrDefault(null);
-        new QArticle()
-                .id.equalTo(id)
-                .delete();
+        Article article = new QArticle()
+                .id.equalTo(id).findOne();
+        article.delete();
+
         ctx.sessionAttribute("flash", "Статья успешно удалена");
-        ctx.redirect("articles/index.html");
+        ctx.redirect("/articles");
         // END
     };
 }

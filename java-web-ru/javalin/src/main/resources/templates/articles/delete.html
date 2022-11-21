@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/application.html}">
+<html layout:decorate="~{layouts/application.html}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
     <title>Delete article</title>
@@ -8,7 +8,7 @@
 <section layout:fragment="content" th:object="${article}">
     <h1>Удаление статьи</h1>
     <p th:text="'Вы уверены, что хотите удалить статью ' + *{title}"></p>
-    <form th:action="@{/articles/{id}/delete(id=*{id})}" method="post">
-        <button type="submit" class="btn btn-danger">Да, удалить</button>
+    <form method="post" th:action="@{/articles/{id}/delete(id=*{id})}">
+        <button class="btn btn-danger" type="submit">Да, удалить</button>
     </form>
 </section>
