@@ -85,13 +85,13 @@ public final class ArticleController {
         String body = ctx.formParam("body");
         Category category = ctx.pathParamAsClass("category", Category.class).getOrDefault(null);
 
-        Article article = new QArticle()
+        new QArticle()
                 .id.equalTo(id)
                 .asUpdate()
                 .set("title", title)
                 .set("body", body)
                 .set("category", category)
-                .updata();
+                .update();
         ctx.sessionAttribute("flash", "Статья успешно обновлена");
         ctx.redirect("articles/index.html");
         // END
