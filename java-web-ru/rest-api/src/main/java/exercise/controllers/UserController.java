@@ -26,7 +26,7 @@ public class UserController implements CrudHandler {
     public void getOne(Context ctx, String id) {
 
         // BEGIN
-        User one = new QUser().id.equalTo(id).findOne();
+        User one = new QUser().id.equalTo(Long.parseLong(id)).findOne();
         String json = DB.json().toJson(one);
         ctx.json(json);
         // END
