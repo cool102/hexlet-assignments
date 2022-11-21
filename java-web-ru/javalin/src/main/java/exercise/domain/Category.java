@@ -1,11 +1,12 @@
 package exercise.domain;
 
 import io.ebean.Model;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.List;
-import javax.persistence.CascadeType;
 
 @Entity
 public class Category extends Model {

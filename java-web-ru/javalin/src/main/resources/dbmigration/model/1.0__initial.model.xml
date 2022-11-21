@@ -5,7 +5,8 @@
             <column name="id" type="bigint" primaryKey="true"/>
             <column name="title" type="varchar"/>
             <column name="body" type="clob"/>
-            <column name="category_id" type="bigint" notnull="true" references="category.id" foreignKeyName="fk_article_category_id" foreignKeyIndex="ix_article_category_id"/>
+            <column name="category_id" type="bigint" notnull="true" references="category.id"
+                    foreignKeyName="fk_article_category_id" foreignKeyIndex="ix_article_category_id"/>
         </createTable>
         <createTable name="category" pkName="pk_category">
             <column name="id" type="bigint" primaryKey="true"/>

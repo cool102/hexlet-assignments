@@ -2,6 +2,7 @@ package exercise;
 
 import io.ebean.annotation.Platform;
 import io.ebean.dbmigration.DbMigration;
+
 import java.io.IOException;
 
 public final class MigrationGenerator {

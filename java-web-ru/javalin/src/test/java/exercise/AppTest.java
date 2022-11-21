@@ -1,21 +1,19 @@
 package exercise;
 
-import org.junit.jupiter.api.BeforeAll;
+import exercise.domain.Article;
+import exercise.domain.query.QArticle;
+import io.ebean.DB;
+import io.ebean.Transaction;
+import io.javalin.Javalin;
+import kong.unirest.HttpResponse;
+import kong.unirest.Unirest;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
-import kong.unirest.HttpResponse;
-import kong.unirest.Unirest;
-import io.javalin.Javalin;
-import io.ebean.DB;
-import io.ebean.Transaction;
-
-import exercise.domain.Article;
-import exercise.domain.query.QArticle;
 
 class AppTest {
 
@@ -58,8 +56,8 @@ class AppTest {
     void testArticles() {
 
         HttpResponse<String> response = Unirest
-            .get(baseUrl + "/articles")
-            .asString();
+                .get(baseUrl + "/articles")
+                .asString();
         String content = response.getBody();
 
         assertThat(response.getStatus()).isEqualTo(200);
@@ -67,8 +65,8 @@ class AppTest {
         assertThat(content).doesNotContain("East of Eden");
 
         HttpResponse<String> response2 = Unirest
-            .get(baseUrl + "/articles?page=2")
-            .asString();
+                .get(baseUrl + "/articles?page=2")
+                .asString();
         String content2 = response2.getBody();
 
         assertThat(response2.getStatus()).isEqualTo(200);
@@ -82,8 +80,8 @@ class AppTest {
     void testArticle() {
 
         HttpResponse<String> response = Unirest
-            .get(baseUrl + "/articles/17")
-            .asString();
+                .get(baseUrl + "/articles/17")
+                .asString();
         String content = response.getBody();
 
         assertThat(response.getStatus()).isEqualTo(200);
@@ -96,8 +94,8 @@ class AppTest {
     void testNewArticle() {
 
         HttpResponse<String> response = Unirest
-            .get(baseUrl + "/articles/new")
-            .asString();
+                .get(baseUrl + "/articles/new")
+                .asString();
         String content = response.getBody();
 
         assertThat(response.getStatus()).isEqualTo(200);
@@ -115,18 +113,18 @@ class AppTest {
         String actualBody = "Text of article";
 
         HttpResponse<String> responsePost = Unirest
-            .post(baseUrl + "/articles")
-            .field("title", actualTitle)
-            .field("body", actualBody)
-            .field("categoryId", "3")
-            .asEmpty();
+                .post(baseUrl + "/articles")
+                .field("title", actualTitle)
+                .field("body", actualBody)
+                .field("categoryId", "3")
+                .asEmpty();
 
         assertThat(responsePost.getStatus()).isEqualTo(302);
         assertThat(responsePost.getHeaders().getFirst("Location")).isEqualTo("/articles");
 
         Article actualArticle = new QArticle()
-            .title.equalTo(actualTitle)
-            .findOne();
+                .title.equalTo(actualTitle)
+                .findOne();
 
         assertThat(actualArticle).isNotNull();
         assertThat(actualArticle.getTitle()).isEqualTo(actualTitle);
@@ -138,8 +136,8 @@ class AppTest {
     void testEditArticle() {
 
         HttpResponse<String> response = Unirest
-            .get(baseUrl + "/articles/7/edit")
-            .asString();
+                .get(baseUrl + "/articles/7/edit")
+                .asString();
         String content = response.getBody();
 
         assertThat(response.getStatus()).isEqualTo(200);
@@ -155,18 +153,18 @@ class AppTest {
         String updatedTitle = "Updated article body";
 
         HttpResponse<String> responsePost = Unirest
-            .post(baseUrl + "/articles/1/edit")
-            .field("title", updatedTitle)
-            .field("body", updatedBody)
-            .field("categoryId", "1")
-            .asEmpty();
+                .post(baseUrl + "/articles/1/edit")
+                .field("title", updatedTitle)
+                .field("body", updatedBody)
+                .field("categoryId", "1")
+                .asEmpty();
 
         assertThat(responsePost.getStatus()).isEqualTo(302);
         assertThat(responsePost.getHeaders().getFirst("Location")).isEqualTo("/articles");
 
         Article actualArticle = new QArticle()
-            .title.equalTo(updatedTitle)
-            .findOne();
+                .title.equalTo(updatedTitle)
+                .findOne();
 
         assertThat(actualArticle).isNotNull();
         assertThat(actualArticle.getTitle()).isEqualTo(updatedTitle);
@@ -178,8 +176,8 @@ class AppTest {
     void testDeleteArticle() {
 
         HttpResponse<String> response = Unirest
-            .get(baseUrl + "/articles/3/delete")
-            .asString();
+                .get(baseUrl + "/articles/3/delete")
+                .asString();
         String content = response.getBody();
 
         assertThat(response.getStatus()).isEqualTo(200);
@@ -190,15 +188,15 @@ class AppTest {
     void testDestroyArticle() {
 
         HttpResponse<String> responsePost = Unirest
-            .post(baseUrl + "/articles/5/delete")
-            .asEmpty();
+                .post(baseUrl + "/articles/5/delete")
+                .asEmpty();
 
         assertThat(responsePost.getStatus()).isEqualTo(302);
         assertThat(responsePost.getHeaders().getFirst("Location")).isEqualTo("/articles");
 
         Article actualArticle = new QArticle()
-            .title.equalTo("Eyeless in Gaza")
-            .findOne();
+                .title.equalTo("Eyeless in Gaza")
+                .findOne();
 
         assertThat(actualArticle).isNull();
     }

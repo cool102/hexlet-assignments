@@ -1,19 +1,19 @@
 package exercise;
 
 // Импортируем зависимости, необходимые для работы приложения
+
+import exercise.controllers.ArticleController;
+import exercise.controllers.RootController;
 import io.javalin.Javalin;
 import io.javalin.plugin.rendering.template.JavalinThymeleaf;
-import static io.javalin.apibuilder.ApiBuilder.path;
-import static io.javalin.apibuilder.ApiBuilder.get;
-import static io.javalin.apibuilder.ApiBuilder.post;
-
-import org.thymeleaf.TemplateEngine;
 import nz.net.ultraq.thymeleaf.layoutdialect.LayoutDialect;
-import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
+import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
+import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
-import exercise.controllers.RootController;
-import exercise.controllers.ArticleController;
+import static io.javalin.apibuilder.ApiBuilder.get;
+import static io.javalin.apibuilder.ApiBuilder.path;
+import static io.javalin.apibuilder.ApiBuilder.post;
 
 public final class App {
 
@@ -48,16 +48,16 @@ public final class App {
         // При помощи методов routes() и path() маршруты можно группировать
 
         // BEGIN
-        app.routes(()->{
-            path("/articles", ()->{
-               get("/articles",ArticleController.listArticles);
+        app.routes(() -> {
+            path("/articles", () -> {
+                get("/articles", ArticleController.listArticles);
                 get("/articles/{id}", ArticleController.showArticle);
                 get("/articles/new", ArticleController.newArticle);
-                post("/articles",ArticleController.createArticle);
-                get("/articles/{id}/edit",ArticleController.editArticle);
-                post("/articles/{id}/edit",ArticleController.updateArticle);
-                get("/articles/{id}/delete",ArticleController.deleteArticle);
-                post("/articles/{id}/delete",ArticleController.destroyArticle);
+                post("/articles", ArticleController.createArticle);
+                get("/articles/{id}/edit", ArticleController.editArticle);
+                post("/articles/{id}/edit", ArticleController.updateArticle);
+                get("/articles/{id}/delete", ArticleController.deleteArticle);
+                post("/articles/{id}/delete", ArticleController.destroyArticle);
             });
         });
         // END

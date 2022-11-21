@@ -1,11 +1,12 @@
 package exercise.domain;
 
 import io.ebean.Model;
+import io.ebean.annotation.NotNull;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import io.ebean.annotation.NotNull;
 
 @Entity
 public class Article extends Model {
