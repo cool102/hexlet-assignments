@@ -82,7 +82,7 @@ public final class ArticleController {
         // BEGIN
         long id = ctx.pathParamAsClass("id", Long.class).getOrDefault(null);
         String title = ctx.formParam("title");
-        String body = ctx.formParam("body",);
+        String body = ctx.formParam("body");
         Category category = ctx.pathParamAsClass("category", Category.class).getOrDefault(null);
 
         Article article = new QArticle()
