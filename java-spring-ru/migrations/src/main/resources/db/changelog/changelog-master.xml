@@ -8,9 +8,10 @@
     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd http://www.liquibase.org/xml/ns/pro
     http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd">
     <!-- BEGIN -->
-    <changeSet id="1" author="liquibase">
+    <changeSet id="1" author="hexlet">
         <createTable tableName="person">
-            <column name="id" type="bigint" autoIncrement="true">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints  primaryKey="true"  nullable="false"/>
             </column>
             <column name="first_name" type="varchar(50)">
             </column>

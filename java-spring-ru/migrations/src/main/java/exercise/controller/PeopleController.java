@@ -29,23 +29,16 @@ public class PeopleController {
     }
 
     // BEGIN
-    @GetMapping("")
-    public String getPersons() throws JsonProcessingException {
-        String sql = "SELECT * FROM person";
-        List<Person> persons = jdbc.query(sql, BeanPropertyRowMapper.newInstance(Person.class));
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(persons);
+    @GetMapping(path = "")
+    public List<Map<String, Object>> getPeople() {
+        String query = "SELECT first_name, last_name from person";
+        return jdbc.queryForList(query);
     }
 
     @GetMapping("/{id}")
-    public String getPerson(@PathVariable("id") int id) throws JsonProcessingException {
-        String sql = "SELECT * FROM person";
-        List<Person> persons = jdbc.query(sql, BeanPropertyRowMapper.newInstance(Person.class));
-        Person finded = persons
-                .stream().filter(p -> p.getId() == id)
-                .findFirst().orElseThrow(() -> new RuntimeException("Not users with id: " + id));
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(finded);
+    public Map<String,Object> getPerson(@PathVariable("id") int id) throws JsonProcessingException {
+        String query = "SELECT first_name, last_name FROM person WHERE id=?";
+        return jdbc.queryForMap(query, id);
     }
 
     // END
