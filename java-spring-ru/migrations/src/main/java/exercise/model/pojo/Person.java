@@ -1,34 +1,35 @@
 package exercise.model.pojo;
 
-import java.math.BigInteger;
-
 public class Person {
     public int id;
-    public String first_name;
-    public String last_name;
+    public String firstName;
+    public String lastName;
 
+
+    public Person() {
+    }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public int getId() {
         return id;
     }
 
-    public String getFirst_name() {
-        return first_name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getLastName() {
+        return lastName;
     }
 }

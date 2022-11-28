@@ -41,7 +41,9 @@ public class PeopleController {
     public String getPerson(@PathVariable("id") int id) throws JsonProcessingException {
         String sql = "SELECT * FROM person";
         List<Person> persons = jdbc.query(sql, BeanPropertyRowMapper.newInstance(Person.class));
-        Person finded = persons.stream().filter(p -> p.getId() == id).findFirst().orElseThrow(() -> new RuntimeException("Not users with id: " + id));
+        Person finded = persons
+                .stream().filter(p -> p.getId() == id)
+                .findFirst().orElseThrow(() -> new RuntimeException("Not users with id: " + id));
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(finded);
     }
