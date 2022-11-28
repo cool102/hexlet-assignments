@@ -1,4 +1,4 @@
-package exercise;
+package exercise.controller;
 
 import exercise.model.Person;
 import exercise.repository.PersonRepository;
@@ -22,7 +22,7 @@ public class WelcomeController {
     }
     @PostMapping("/people")
     public void createUser(@RequestBody Person person) {
-        if (person == null) {
+        if (person != null) {
             personRepository.save(person);
         }
     }
