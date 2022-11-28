@@ -32,8 +32,8 @@ public class WelcomeController {
         personRepository.delete(finded);
     }
     @PatchMapping("/people/{id}")
-    public void updateUser(@PathVariable ("id") int id){
-        Person update = personRepository.findById(id);
-        personRepository.save(update);
+    public void updateUser(@PathVariable ("id") int id, @RequestBody Person newPerson){
+        newPerson.setId(id);
+        personRepository.save(newPerson);
     }
 }
