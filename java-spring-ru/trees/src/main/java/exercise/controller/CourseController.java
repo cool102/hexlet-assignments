@@ -31,7 +31,7 @@ public class CourseController {
     }
 
     // BEGIN
-    @GetMapping(path = "/{id}/previous/")
+    @GetMapping(path = "/{id}/previous")
     public List<Course> getParents(@PathVariable long id) {
 
         //получить текущий курс
