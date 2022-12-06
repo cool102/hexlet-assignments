@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -32,20 +33,26 @@ public class CourseController {
     // BEGIN
     @GetMapping(path = "/{id}/previous/")
     public List<Course> getParents(@PathVariable long id) {
+
         //получить текущий курс
         Course child = courseRepository.findById(id);
         //получить значение поля path текущего курса
         String childPath = child.getPath();
-        // собрать id вышестоящих курсов в список
-        List<String> parentsId = Arrays.stream(childPath.split("\\.")).toList();
-        // идти по списку и получать курс из БАЗЫ и ложить в список курсов
-        List<Course> result = new ArrayList<>();
-        for (String cur : parentsId) {
-            Course course = courseRepository.findById(Long.parseLong(cur));
-            result.add(course);
+        if (childPath != null) {
+            // собрать id вышестоящих курсов в список
+            List<String> parentsId = Arrays.stream(childPath.split("\\.")).toList();
+            // идти по списку и получать курс из БАЗЫ и ложить в список курсов
+            List<Course> result = new ArrayList<>();
+            for (String cur : parentsId) {
+                Course course = courseRepository.findById(Long.parseLong(cur));
+                result.add(course);
+            }
+            return result;
+            // вернуть этот список
+        } else {
+            return Collections.emptyList();
         }
-        return result;
-        // вернуть этот список
+
     }
     // END
 
