@@ -20,9 +20,11 @@ public class UsersController {
     private UserRepository userRepository;
 
     // BEGIN
-    @GetMapping("")
-    public Iterable<User> getUsersByFilter(@RequestParam(value = "firstName", required = false) String firstName,
-                                           @RequestParam(value = "lastName", required = false) String lastName) {
+    @GetMapping(path = "")
+    public Iterable<User> getUsers(
+            @RequestParam(required = false) String firstName,
+            @RequestParam(required = false) String lastName) {
+
         if (firstName == null && lastName == null) {
             return userRepository.findAll();
         }
@@ -32,11 +34,13 @@ public class UsersController {
                     QUser.user.lastName.containsIgnoreCase(lastName)
             );
         }
+
         if (lastName == null) {
             return userRepository.findAll(
                     QUser.user.firstName.containsIgnoreCase(firstName)
             );
         }
+
         return userRepository.findAll(
                 QUser.user.firstName
                         .containsIgnoreCase(firstName)
@@ -46,6 +50,12 @@ public class UsersController {
                         )
         );
     }
-    // END
+
+    
+
+     @GetMapping(path = "")
+     public Iterable<User> getUsers(@QuerydslPredicate(root = User.class) Predicate predicate) {
+         return userRepository.findAll(predicate);
+     }
 }
 
