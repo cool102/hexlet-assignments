@@ -31,6 +31,9 @@ public class CommentController {
     public void deleteComment(@PathVariable long postId, @PathVariable long commentId) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new ResourceNotFoundException("Post not found"));
         Comment comment = commentRepository.findByIdAndPost(commentId, post);
+        if (comment == null) {
+            throw new ResourceNotFoundException("Comment not found");
+        }
         commentRepository.delete(comment);
     }
 
