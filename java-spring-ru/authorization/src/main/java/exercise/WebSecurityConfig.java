@@ -35,7 +35,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(DELETE, "/users/**").hasAuthority(UserRole.ADMIN.name())
                 .and()
                 .httpBasic();
-        ;
         // END
     }
 
