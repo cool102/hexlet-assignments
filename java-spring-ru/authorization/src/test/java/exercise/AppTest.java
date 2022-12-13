@@ -83,7 +83,7 @@ public class AppTest {
         assertThat(responsePost.getStatus()).isEqualTo(200);
 
         // Проверяем, что пользователь добавился в базу данных
-        User actualUser = userRepository.findByEmail("petrilo@yandex.ru").get();
+        User actualUser = userRepository.findByEmail("petrilo@yandex.ru");
         assertThat(actualUser).isNotNull();
         assertThat(actualUser.getUsername()).isEqualTo("Petr_12");
 
