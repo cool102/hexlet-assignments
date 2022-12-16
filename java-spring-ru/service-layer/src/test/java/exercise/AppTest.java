@@ -1,23 +1,24 @@
 package exercise;
 
-import org.junit.jupiter.api.Test;
-import static org.assertj.core.api.Assertions.assertThat;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.database.rider.core.api.dataset.DataSet;
+import com.github.database.rider.junit5.api.DBRider;
+import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.lang3.StringUtils;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import org.springframework.http.MediaType;
-import com.github.database.rider.junit5.api.DBRider;
-import com.github.database.rider.core.api.dataset.DataSet;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -35,17 +36,18 @@ public class AppTest {
     void testAllCities() throws Exception {
 
         MockHttpServletResponse response = mockMvc
-            .perform(get("/search"))
-            .andReturn()
-            .getResponse();
+                .perform(get("/search"))
+                .andReturn()
+                .getResponse();
 
         assertThat(response.getStatus()).isEqualTo(200);
         assertThat(response.getContentType()).isEqualTo(MediaType.APPLICATION_JSON.toString());
 
 
         List<Map<String, String>> actualCities = objectMapper.readValue(
-            response.getContentAsString(),
-            new TypeReference<List<Map<String, String>>>() { }
+                response.getContentAsString(),
+                new TypeReference<List<Map<String, String>>>() {
+                }
         );
 
         // Проверяем, что без фильтра вернулся полный список городов
@@ -62,17 +64,18 @@ public class AppTest {
     void testFilteredCities() throws Exception {
 
         MockHttpServletResponse response = mockMvc
-            .perform(get("/search?name=m"))
-            .andReturn()
-            .getResponse();
+                .perform(get("/search?name=m"))
+                .andReturn()
+                .getResponse();
 
         assertThat(response.getStatus()).isEqualTo(200);
         assertThat(response.getContentType()).isEqualTo(MediaType.APPLICATION_JSON.toString());
         assertThat(response.getContentAsString()).contains("Moscow", "Marakesh");
 
         List<Map<String, String>> actualCities = objectMapper.readValue(
-            response.getContentAsString(),
-            new TypeReference<List<Map<String, String>>>() { }
+                response.getContentAsString(),
+                new TypeReference<List<Map<String, String>>>() {
+                }
         );
 
         assertThat(actualCities.size()).isEqualTo(2);
@@ -85,16 +88,17 @@ public class AppTest {
     void testCityWeather() throws Exception {
 
         MockHttpServletResponse response = mockMvc
-            .perform(get("/cities/1"))
-            .andReturn()
-            .getResponse();
+                .perform(get("/cities/1"))
+                .andReturn()
+                .getResponse();
 
         assertThat(response.getStatus()).isEqualTo(200);
         assertThat(response.getContentType()).isEqualTo(MediaType.APPLICATION_JSON.toString());
 
         Map<String, String> actualCity = objectMapper.readValue(
-            response.getContentAsString(),
-            new TypeReference<Map<String, String>>() { }
+                response.getContentAsString(),
+                new TypeReference<Map<String, String>>() {
+                }
         );
 
         assertThat(actualCity.get("name")).isEqualTo("Moscow");

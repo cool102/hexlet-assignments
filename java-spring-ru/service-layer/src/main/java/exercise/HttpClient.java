@@ -1,9 +1,9 @@
 package exercise;
 
-import java.util.Map;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
+
+import java.util.Map;
 
 
 @Component
@@ -37,11 +37,11 @@ public class HttpClient {
         String[] cloudy = {"cloudy", "clear", "Partly cloudy"};
 
         return Map.of(
-            "name", city,
-            "temperature", String.valueOf(getRandomNumber(0, 35)),
-            "cloudy", cloudy[getRandomNumber(0, cloudy.length - 1)],
-            "wind", String.valueOf(getRandomNumber(0, 20)),
-            "humidity", String.valueOf(getRandomNumber(40, 100))
+                "name", city,
+                "temperature", String.valueOf(getRandomNumber(0, 35)),
+                "cloudy", cloudy[getRandomNumber(0, cloudy.length - 1)],
+                "wind", String.valueOf(getRandomNumber(0, 20)),
+                "humidity", String.valueOf(getRandomNumber(40, 100))
         );
 
     }
