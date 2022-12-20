@@ -4,8 +4,8 @@ import java.util.Arrays;
 
 // BEGIN
 class MaxThread extends Thread {
-    int[] arr;
-    int max;
+    private int[] arr;
+    private int max;
 
     public MaxThread(int[] array) {
         arr = array;

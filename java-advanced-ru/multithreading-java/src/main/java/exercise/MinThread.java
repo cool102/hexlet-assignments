@@ -4,8 +4,8 @@ import java.util.Arrays;
 
 // BEGIN
 class MinThread extends Thread {
-    int[] arr;
-    int min;
+    private int[] arr;
+    private int min;
 
     public MinThread(int[] array) {
         arr = array;
