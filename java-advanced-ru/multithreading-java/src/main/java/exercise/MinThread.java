@@ -7,7 +7,7 @@ class MinThread extends Thread {
     private int[] arr;
     private int min;
 
-    public MinThread(int[] array) {
+    MinThread(int[] array) {
         arr = array;
     }
 

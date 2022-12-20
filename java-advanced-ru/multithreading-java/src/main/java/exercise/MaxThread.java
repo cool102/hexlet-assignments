@@ -7,7 +7,7 @@ class MaxThread extends Thread {
     private int[] arr;
     private int max;
 
-    public MaxThread(int[] array) {
+    MaxThread(int[] array) {
         arr = array;
     }
 
